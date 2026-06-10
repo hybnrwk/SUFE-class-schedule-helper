@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>选课排课助手</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 6.5h16M4 12h16M4 17.5h16M8 4v16M16 4v16" />
+            </svg>
+          </span>
+          <div>
+            <h1>选课排课助手</h1>
+            <p id="dataStatus">课程数据加载中</p>
+          </div>
+        </div>
+        <div class="top-actions">
+          <label class="search-box" for="searchInput">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" />
+              <path d="m16.5 16.5 4 4" />
+            </svg>
+            <input id="searchInput" type="search" placeholder="搜索课程、教师、教室" autocomplete="off" />
+          </label>
+          <a class="link-button" href="https://eams.sufe.edu.cn/eams/allTeachTaskSearch!arrangeInfoList.action" target="_blank" rel="noreferrer">
+            选课系统
+          </a>
+          <button class="ghost-button" id="clearSelection" type="button">清空</button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="filter-panel" aria-label="筛选条件">
+          <div class="panel-heading">
+            <h2>筛选</h2>
+            <button class="text-button" id="resetFilters" type="button">重置</button>
+          </div>
+          <label>
+            课程类别
+            <select id="categoryFilter"></select>
+          </label>
+          <label>
+            开课院系
+            <select id="departmentFilter"></select>
+          </label>
+          <label>
+            星期
+            <select id="dayFilter">
+              <option value="">全部</option>
+              <option value="星期一">星期一</option>
+              <option value="星期二">星期二</option>
+              <option value="星期三">星期三</option>
+              <option value="星期四">星期四</option>
+              <option value="星期五">星期五</option>
+              <option value="星期六">星期六</option>
+              <option value="星期日">星期日</option>
+            </select>
+          </label>
+          <label>
+            空余名额
+            <select id="seatFilter">
+              <option value="">全部</option>
+              <option value="available">有余量</option>
+              <option value="full">已满</option>
+            </select>
+          </label>
+          <div class="metric-strip">
+            <div>
+              <span id="visibleCount">0</span>
+              <small>可见教学班</small>
+            </div>
+            <div>
+              <span id="selectedCount">0</span>
+              <small>已选教学班</small>
+            </div>
+          </div>
+        </aside>
+
+        <section class="main-stage">
+          <div class="stage-header">
+            <div>
+              <h2>周课表</h2>
+              <p id="scheduleSummary">未选择课程</p>
+            </div>
+            <div class="credit-pill">
+              <span id="creditTotal">0</span>
+              <small>学分</small>
+            </div>
+          </div>
+          <div class="schedule-scroll">
+            <div class="schedule-grid" id="scheduleGrid" aria-label="周课表"></div>
+          </div>
+          <div class="catalog-panel">
+            <div class="catalog-header">
+              <h2>课程目录</h2>
+              <div id="catalogStats">0 条</div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>选择</th>
+                    <th>课程序号</th>
+                    <th>课程</th>
+                    <th>教师</th>
+                    <th>时间地点</th>
+                    <th>人数</th>
+                    <th>学分</th>
+                  </tr>
+                </thead>
+                <tbody id="courseTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <aside class="detail-panel" aria-label="课程详情">
+          <div class="panel-heading">
+            <h2>选课测试</h2>
+            <span id="conflictBadge" class="status-badge ok">无冲突</span>
+          </div>
+          <div class="summary-grid">
+            <div>
+              <span id="summaryCourses">0</span>
+              <small>课程</small>
+            </div>
+            <div>
+              <span id="summaryCredits">0</span>
+              <small>学分</small>
+            </div>
+            <div>
+              <span id="summaryConflicts">0</span>
+              <small>冲突</small>
+            </div>
+          </div>
+          <section class="inspector-section">
+            <h3>冲突提醒</h3>
+            <div id="conflictList" class="message-list"></div>
+          </section>
+          <section class="inspector-section">
+            <h3>已选课程</h3>
+            <div id="selectedList" class="selected-list"></div>
+          </section>
+          <section class="inspector-section detail-card">
+            <h3>课程详情</h3>
+            <div id="detailContent"></div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script src="./src/data.js"></script>
+    <script src="./src/app.js"></script>
+  </body>
+</html>

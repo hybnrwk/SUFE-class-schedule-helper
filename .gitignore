@@ -1,0 +1,5 @@
+.codex_deps/
+__pycache__/
+*.pyc
+data/raw/*
+!data/raw/.gitkeep
