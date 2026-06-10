@@ -26,6 +26,7 @@ const state = {
     category: "",
     department: "",
     day: "",
+    teachingClass: "",
     seats: "",
   },
 };
@@ -38,6 +39,7 @@ const el = {
   categoryFilter: document.querySelector("#categoryFilter"),
   departmentFilter: document.querySelector("#departmentFilter"),
   dayFilter: document.querySelector("#dayFilter"),
+  classFilter: document.querySelector("#classFilter"),
   seatFilter: document.querySelector("#seatFilter"),
   resetFilters: document.querySelector("#resetFilters"),
   clearSelection: document.querySelector("#clearSelection"),
@@ -74,6 +76,10 @@ function courseTeacher(course) {
   return course.teacher || course.sections.find((section) => section.teacher)?.teacher || "待公布";
 }
 
+function courseClassText(course) {
+  return course.teachingClass || "未注明教学班";
+}
+
 function populateSelect(select, values, allLabel = "全部") {
   select.innerHTML = "";
   const all = document.createElement("option");
@@ -100,6 +106,8 @@ function courseMatches(course) {
       courseTeacher(course),
       course.arrangement,
       course.teachingClass,
+      course.teacherDepartment,
+      ...course.sections.map((section) => section.location),
     ]
       .join(" ")
       .toLowerCase();
@@ -109,6 +117,7 @@ function courseMatches(course) {
   if (state.filters.category && course.category !== state.filters.category) return false;
   if (state.filters.department && course.department !== state.filters.department) return false;
   if (state.filters.day && !course.sections.some((section) => section.weekday === state.filters.day)) return false;
+  if (state.filters.teachingClass && !courseClassText(course).toLowerCase().includes(state.filters.teachingClass.toLowerCase())) return false;
   if (state.filters.seats === "available" && course.seatsLeft <= 0) return false;
   if (state.filters.seats === "full" && course.seatsLeft > 0) return false;
   return true;
@@ -247,6 +256,7 @@ function renderCatalog(courses) {
         <div class="course-name">${course.name || "-"}</div>
         <div class="muted">${course.category || "未分类"} · ${course.department || "未知院系"}</div>
       </td>
+      <td class="class-cell">${courseClassText(course)}</td>
       <td>${courseTeacher(course)}</td>
       <td>${courseTimeText(course)}</td>
       <td>
@@ -329,7 +339,8 @@ function renderDetail(course) {
 
 function renderSummary(courses, conflicts) {
   const totalCredits = courses.reduce((sum, course) => sum + Number(course.credits || 0), 0);
-  const source = data.meta?.sourceFiles?.join("、") || "本地数据";
+  const files = data.meta?.sourceFiles || [];
+  const source = files.length > 1 ? `${files.length} 个导出文件` : files[0] || "本地数据";
   el.dataStatus.textContent = `${source} · ${data.meta?.courseCount || data.courses.length} 个教学班 · ${data.meta?.sectionCount || 0} 段时间`;
   el.selectedCount.textContent = String(courses.length);
   el.summaryCourses.textContent = String(courses.length);
@@ -394,16 +405,21 @@ function bindEvents() {
     state.filters.day = event.target.value;
     render();
   });
+  el.classFilter.addEventListener("input", (event) => {
+    state.filters.teachingClass = event.target.value.trim();
+    render();
+  });
   el.seatFilter.addEventListener("change", (event) => {
     state.filters.seats = event.target.value;
     render();
   });
   el.resetFilters.addEventListener("click", () => {
-    state.filters = { search: "", category: "", department: "", day: "", seats: "" };
+    state.filters = { search: "", category: "", department: "", day: "", teachingClass: "", seats: "" };
     el.searchInput.value = "";
     el.categoryFilter.value = "";
     el.departmentFilter.value = "";
     el.dayFilter.value = "";
+    el.classFilter.value = "";
     el.seatFilter.value = "";
     render();
   });

@@ -26,10 +26,10 @@
               <circle cx="11" cy="11" r="7" />
               <path d="m16.5 16.5 4 4" />
             </svg>
-            <input id="searchInput" type="search" placeholder="搜索课程、教师、教室" autocomplete="off" />
+            <input id="searchInput" type="search" placeholder="搜索课程、教师、教室、教学班" autocomplete="off" />
           </label>
-          <a class="link-button" href="https://eams.sufe.edu.cn/eams/allTeachTaskSearch!arrangeInfoList.action" target="_blank" rel="noreferrer">
-            选课系统
+          <a class="link-button" href="https://eams.sufe.edu.cn/eams/allTeachTaskSearch!arrangeInfoList.action" target="_blank" rel="noreferrer" title="补充查询：进入后筛选 2026-2027 学年、本科生教学项目">
+            全校教学任务
           </a>
           <button class="ghost-button" id="clearSelection" type="button">清空</button>
         </div>
@@ -63,6 +63,10 @@
             </select>
           </label>
           <label>
+            教学班
+            <input id="classFilter" class="filter-input" type="search" placeholder="如 24大数据1班" autocomplete="off" />
+          </label>
+          <label>
             空余名额
             <select id="seatFilter">
               <option value="">全部</option>
@@ -79,6 +83,10 @@
               <span id="selectedCount">0</span>
               <small>已选教学班</small>
             </div>
+          </div>
+          <div class="supplement-box">
+            <strong>补充查询</strong>
+            <p>全校教学任务页只作为补充信息入口。打开后请筛选 2026-2027 学年和本科生教学项目，本工具仍以本地导入数据为主。</p>
           </div>
         </aside>
 
@@ -108,6 +116,7 @@
                     <th>选择</th>
                     <th>课程序号</th>
                     <th>课程</th>
+                    <th>教学班</th>
                     <th>教师</th>
                     <th>时间地点</th>
                     <th>人数</th>

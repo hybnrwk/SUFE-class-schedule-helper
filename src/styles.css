@@ -245,7 +245,8 @@ button {
   font-size: 13px;
 }
 
-select {
+select,
+.filter-input {
   width: 100%;
   height: 38px;
   padding: 0 10px;
@@ -257,6 +258,7 @@ select {
 }
 
 select:focus,
+.filter-input:focus,
 .search-box:focus-within {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.13);
@@ -300,6 +302,26 @@ select:focus,
   margin-top: 6px;
   color: var(--muted);
   font-size: 12px;
+}
+
+.supplement-box {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fbfcfc;
+}
+
+.supplement-box strong {
+  display: block;
+  font-size: 13px;
+}
+
+.supplement-box p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
 }
 
 .main-stage {
@@ -472,6 +494,7 @@ select:focus,
 
 table {
   width: 100%;
+  min-width: 1080px;
   border-collapse: collapse;
   font-size: 13px;
 }
@@ -492,6 +515,7 @@ th {
   position: sticky;
   top: 0;
   z-index: 1;
+  white-space: nowrap;
 }
 
 tbody tr {
@@ -510,6 +534,13 @@ tbody tr.active {
 .muted {
   color: var(--muted);
   font-size: 12px;
+}
+
+.class-cell {
+  max-width: 220px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .row-action {
@@ -682,7 +713,8 @@ tbody tr.active {
   }
 
   .filter-panel .panel-heading,
-  .metric-strip {
+  .metric-strip,
+  .supplement-box {
     grid-column: 1 / -1;
   }
 
